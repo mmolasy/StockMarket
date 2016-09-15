@@ -46,11 +46,11 @@ public class StockMarketMain {
 						for (OrderItem x : orderRepository.getPurchaseTransactions()) {
 
 							/* WERSJA Z WATKAMI */
-							FindOrderItemThread findOrderItemThread = new FindOrderItemThread(x);
-							findOrderItemThread.start();
+//							FindOrderItemThread findOrderItemThread = new FindOrderItemThread(x);
+//							findOrderItemThread.start();
 
 							/* WERSJA BEZ WATKOW */
-							//orderRepository.searchTransaction(x);
+							orderRepository.searchTransaction(x);
 
 						}
 
@@ -72,11 +72,11 @@ public class StockMarketMain {
 			e.printStackTrace();
 		}
 		System.out.println("Unrealized transactions");
-		for (OrderItem Unrealized : orderRepository.getTransactionsUnrealized())
+		for (OrderItem Unrealized : orderRepository.getTransactionsUnrealized().stream().filter(x -> x.getQuantityOfShare() != 0).collect(Collectors.toList()))
 			System.out.println(Unrealized);
 		System.out.println("");
 		System.out.println("Realized transactions");
-		for (OrderItem Realized : orderRepository.getTransactionsRealized())
+		for (OrderItem Realized : orderRepository.getTransactionsRealized().stream().filter(x -> x.getQuantityOfShare() != 0).collect(Collectors.toList()))
 			System.out.println(Realized);
 
 	}
