@@ -99,7 +99,7 @@ public class StockMarketTest {
 	
 	
 		@Test
-		public void sellNotAll(){
+		public void buyNotAll2(){
 
 			OrderRepositoryImpl repo = new OrderRepositoryImpl();
 
@@ -147,6 +147,50 @@ public class StockMarketTest {
 			assertEquals(2, repo.getTransactionsUnrealized().size());
 			assertEquals(850, repo.getTransactionsUnrealized().get(0).getQuantityOfShare());
 			assertEquals(TypeOfOrder.BID, repo.getTransactionsUnrealized().get(1).getItemType());
+		}
+		
+		@Test
+		public void sellNotAll(){
+			
+OrderRepositoryImpl repo = new OrderRepositoryImpl();
+
+			
+			OrderItem orderItem = new OrderItem();
+			orderItem.setFirmId("Facebook");
+			orderItem.setItemType(TypeOfOrder.ASK);
+			orderItem.setQuantityOfShare(5000);
+			orderItem.setPricePerShare(20);
+			orderItem.setPersonId("Mateusz");
+			
+			OrderItem orderItem2 = new OrderItem();
+			orderItem2.setFirmId("Facebook");
+			orderItem2.setItemType(TypeOfOrder.ASK);
+			orderItem2.setQuantityOfShare(5000);
+			orderItem2.setPricePerShare(20);
+			orderItem2.setPersonId("Mateusz2");
+			
+			OrderItem orderItem3 = new OrderItem();
+			orderItem3.setFirmId("Facebook");
+			orderItem3.setItemType(TypeOfOrder.BID);
+			orderItem3.setQuantityOfShare(9000);
+			orderItem3.setPricePerShare(20);
+			orderItem3.setPersonId("Mateusz3");
+		
+			
+			repo.getTransactionsUnrealized().add(orderItem);
+			repo.getTransactionsUnrealized().add(orderItem2);
+			repo.getTransactionsUnrealized().add(orderItem3);
+			
+			for(OrderItem x: repo.getPurchaseTransactions())
+			{
+				repo.searchTransaction(x);
+			}
+			
+			assertEquals(1, repo.getTransactionsUnrealized().size());
+			assertEquals(1000, repo.getTransactionsUnrealized().get(0).getQuantityOfShare());
+			assertEquals(TypeOfOrder.ASK, repo.getTransactionsUnrealized().get(0).getItemType());
+
+			
 		}
 	
 	
